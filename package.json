@@ -1,0 +1,17 @@
+{
+  "name": "meteor",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "一片安静的夜空，偶尔有流星划过。",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}

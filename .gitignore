@@ -1,0 +1,6 @@
+.tmp/
+node_modules/
+dist/
+.workbuddy/
+.DS_Store
+*.log

@@ -1,0 +1,166 @@
+:root {
+  --bg: #05070c;
+  --ink: #eef2f8;
+  --edge: clamp(24px, 4.6vw, 78px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+/* ---------- 背景层：星云辉光 ---------- */
+
+.glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1100px 620px at 78% 4%, rgba(72, 112, 200, 0.15), transparent 62%),
+    radial-gradient(900px 700px at 96% 92%, rgba(120, 84, 178, 0.09), transparent 65%),
+    radial-gradient(1500px 900px at 50% 50%, rgba(22, 32, 62, 0.38), transparent 74%);
+}
+
+/* ---------- 画布层 ----------
+   #stars 是静态星场，仅在尺寸变化时重绘一次；
+   #fx 只承载流星与少量闪烁亮星，是唯一每帧更新的图层。 */
+
+#stars,
+#fx {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+}
+
+#fx {
+  z-index: 2;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  /* 中心偏向流星主要活动区域，左下角的文字基本不受压暗影响 */
+  background: radial-gradient(145% 115% at 62% 36%, transparent 58%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+/* ---------- 文字：压在左下角，把画面中心让给天空 ---------- */
+
+.stage {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 4;
+  max-width: min(88vw, 560px);
+  padding: var(--edge);
+  padding-bottom: max(var(--edge), env(safe-area-inset-bottom));
+  text-align: left;
+  pointer-events: none;
+}
+
+.rule {
+  display: block;
+  width: 34px;
+  height: 1px;
+  margin-bottom: clamp(18px, 2.4vw, 26px);
+  background: linear-gradient(90deg, rgba(238, 242, 248, 0.44), rgba(238, 242, 248, 0));
+  animation: rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(238, 242, 248, 0.38);
+  animation: rise 1.2s 0.08s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+h1 {
+  margin: clamp(10px, 1.4vw, 16px) 0 0;
+  font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+  font-weight: 200;
+  line-height: 1.05;
+  letter-spacing: 0.18em;
+  color: #f4f7fc;
+  text-shadow: 0 0 46px rgba(140, 180, 255, 0.18);
+  animation: rise 1.2s 0.16s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.lead {
+  margin: clamp(14px, 1.8vw, 20px) 0 0;
+  font-size: clamp(12.5px, 1.1vw, 14px);
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  color: rgba(238, 242, 248, 0.5);
+  animation: rise 1.2s 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hint {
+  position: fixed;
+  right: var(--edge);
+  bottom: max(var(--edge), env(safe-area-inset-bottom));
+  z-index: 4;
+  margin: 0;
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-align: right;
+  white-space: nowrap;
+  color: rgba(238, 242, 248, 0.2);
+  pointer-events: none;
+  animation: rise 1.4s 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --edge: 22px;
+  }
+
+  .stage {
+    max-width: 100%;
+  }
+
+  .hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rule,
+  .eyebrow,
+  h1,
+  .lead,
+  .hint {
+    animation: none;
+  }
+}
